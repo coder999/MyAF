@@ -16,6 +16,15 @@
 	<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
 	<script type="text/javascript" src="js/functions.js"></script>
 	
+	
+	<script type="text/javascript">
+	document.addEventListener("deviceready", onDeviceReady, false);
+	function onDeviceReady() {
+		console.log(navigator.vibrate);
+	}
+	
+	</script>
+	
 	<!--
 	<meta name="viewport" content="width=device-width, initial-scale=2.0">
 	-->
@@ -44,9 +53,10 @@
 	<a href="medicationlog.html" class="button"><img src="img/pill.png" height="60" /> My Medication Log</a>
 	<a href="bridging.html" class="button"><img src="img/procedure.png" height="60" /> Procedures</a>
 	<a href="contingency.html" class="button"><img src="img/symptoms.png" height="60" /> If I get Symptoms</a>
-	
-	<a href="javascript: navigator.vibrate(time);return false;" class="button"> Vibe</a>
 
+	<a href="javascript: navigator.vibrate(2000);" class="button"> Vibe</a>
+	
+	<a href="#" onclick="navigator.vibrate(2000);" >TEST VIBE</a>
 
 	<br />
 	<span style="color: #c5411e;">
