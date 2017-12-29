@@ -10,4 +10,6 @@
 	<icon src="icon180x180.png" />
     <content src="index.html" />
     <access origin="*" />
+	
+	<plugin name="cordova-plugin-vibration" source="npm" spec="~2.1.6" />
 </widget>
