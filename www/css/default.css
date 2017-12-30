@@ -17,7 +17,7 @@ a { color: #000; text-decoration: none; }
 form, select, input, a { font-size: 20pt; font-weight: bold; }
 
 form input { border: 1px solid black; }
-
+#message { color: #4C0000; margin: 0px 20% 10px 20%; background-color: #FFBDBD; padding: 5px 15px 5px 15px; border-radius: 5px; border: 1px solid black; display: none; }
 
 input[type=button], input[type=submit], select, a.button { width: 80%; display: block; margin: auto; border-radius: 3px;  background: #54A759; border: 0px solid #fff; padding: 5px 15px 5px 15px; box-shadow: inset -1px -1px 4px #004304; margin-bottom: 15px; }
 #initialsdiv select{display: inline; width: 20%;}

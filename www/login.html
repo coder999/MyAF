@@ -41,12 +41,15 @@
 			success: function(data){
 			if(data=="success")
 			{
-			alert("You are now logged in");
+				alert("You are now logged in");
 			}
 			else if(data=="failed")
 			{
-			alert("Something Went wrong");
+				//alert("Your username/password combo is incorrect");
+				$("#message span").html("Your username/password combo is incorrect.");
+				$("#message").fadeIn();
 			} else { alert(data); }
+			
 			}
 			});
 			}return false;
@@ -80,6 +83,11 @@
 	<img src ="img/logo.png" />
 
 	<h1>Log in</h1>
+	
+	<div id="message">
+		<h2>Error</h2>
+		<span></span>
+	</div>
 	
 	<form id="login">
 	Email <input type="email" id="email" required /><br />
