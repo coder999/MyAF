@@ -10,4 +10,5 @@
     <icon src="icon180x180.png" />
     <content src="index.html" />
     <access origin="*" />
+    <access allows-arbitrary-loads-for-media="true" allows-arbitrary-loads-in-web-content="true" allows-local-networking="true" origin="medicineinnovation.com" />
 </widget>
