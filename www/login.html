@@ -22,6 +22,38 @@
 		console.log(navigator.vibrate);
 	}
 	
+	
+	$( document ).ready(function() {
+			$("#submit").click(function(){
+
+			var email=$("#email").val();
+			var password=$("#password").val();
+			var dataString="email="+email+"&password="+password;
+			if($.trim(email).length>0 & $.trim(password).length>0)
+			{
+			$.ajax({
+			type: "POST",
+			url: "http://medicineinnovation.com/myafib/processor.php",
+			data: dataString,
+			crossDomain: true,
+			cache: false,
+			beforeSend: function(){ $("#submit").val('Connecting...');},
+			success: function(data){
+			if(data=="success")
+			{
+			alert("You are now logged in");
+			}
+			else if(data=="failed")
+			{
+			alert("Something Went wrong");
+			} else { alert(data); }
+			}
+			});
+			}return false;
+			});
+			
+	});
+	
 	</script>
 	
 	<!--
@@ -47,16 +79,13 @@
 
 	<img src ="img/logo.png" />
 
-	<a href="afinfo.html" class="button"><img src="img/about.png" height="60" />About A-Fib</a>
-	<a href="glossary.html" class="button"><img src="img/glossary.png" height="60" />Glossary</a>
-	<a href="medicationlog.html" class="button"><img src="img/pill.png" height="60" /> My Medication Log</a>
-	<a href="bridging.html" class="button"><img src="img/procedure.png" height="60" /> Procedures</a>
-	<a href="contingency.html" class="button"><img src="img/symptoms.png" height="60" /> If I get Symptoms</a>
-
-
-	<a href="javascript: navigator.vibrate(2000);" class="button"> Vibe</a>
+	<h1>Log in</h1>
 	
-	<a href="login.html" class="button">Login</a>
+	<form id="login">
+	Email <input type="email" id="email" required /><br />
+	Password <input type="password" id="password" autocomplete="off" required />
+	<input type="submit" id="submit" />
+	</form>
 
 	<br />
 	<span style="color: #c5411e;">
