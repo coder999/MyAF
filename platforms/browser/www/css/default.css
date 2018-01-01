@@ -35,7 +35,7 @@ form input { border: 1px solid black; display: block; width: 100%; margin: auto;
 input[type=submit] { margin-top: 10px; background-color: #BBDDCC; font-size: 14pt; box-shadow: inset -1px -1px 4px #111111; cursor: pointer; }
 #message, .errorBubble { background-color: #FFBDBD;border: 1px solid #4C0000; color: #4C0000; padding: 5px 15px 5px 15px; border-radius: 5px; }
 #message { margin: 0px 20% 10px 20%;  display: none; }
-.errorBubble { position: relative; width: 80%; margin: auto; }
+.errorBubble { position: relative; width: 80%; margin: auto; display: none; }
 .errorBubble:after, .errorBubble:before {top: 100%;	left: 90%; border: solid transparent; content: " "; height: 0; width: 0;	position: absolute;	pointer-events: none;}
 
 .errorBubble:after { border-color: rgba(255, 255, 255, 0); border-top-color: #FFBDBD; border-width: 31px; margin-left: -31px;}

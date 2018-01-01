@@ -19,6 +19,81 @@
 	
 	
 	<script type="text/javascript">
+	
+	var validation = {
+	//validation object
+		errorCount: 0,
+		checkIfNotEmpty: function(inputText) {
+			if (inputText.length > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		},		
+		validateEmail: function(inputText) {
+			var emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+			if(inputText.match(emailFormat)) {
+				return true;
+			} else { 
+				console.log("You have entered an invalid email address!");
+			return false;
+			}
+		},
+		validatePassword: function(inputText) {
+			// (?=.*\d) for at least one digit
+			// (?=.*[a-zA-Z]) for at least one letter
+			// (?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]) for at least one special character
+			// {6,20} for 6-20 characters in length
+			var passwordFormat = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{6,20}$/;
+			if(inputText.match(passwordFormat)) {
+				return true;
+			} else { 
+				console.log("You have entered an invalid password!");
+				return false;
+			}
+		},
+		validate: function(elementID, validationType) {
+			var inputValue = document.getElementById(elementID).value;
+			if (validationType == "email") {
+				if (this.checkIfNotEmpty(inputValue)) {
+					console.log("Email contains something");
+					if (this.validateEmail(inputValue)) {
+						console.log("Email is a valid email");
+					} else {
+						console.log("Email is NOT valid email");
+						this.errorCount ++;
+						this.displayError(elementID, "Please enter a valid email address (ex. jim@company.com)");
+					}
+				} else {
+					console.log("Email field is empty");
+					this.displayError(elementID, "Please enter your email address");
+					this.errorCount ++;
+				}
+			} else if (validationType == "password") {
+			
+			} else {
+				console.log("Unknown validation type");
+			}
+		},
+		displayError: function(elementID, errorText) {
+			reference = "#" + elementID + "Error";
+			//Create a reference to the corresponding hidden error div by using the ID of the input element and appending "Error"
+			$(reference).html(errorText);
+			
+				if ($(reference).css('display') == "none") {
+					$(reference).fadeIn();
+				} else {
+					var initialColor = $(reference).css("background-color");
+					$(reference)
+					.animate({backgroundColor:'#FF6666'}, 100)
+					.delay(100)
+					.animate({backgroundColor:initialColor}, 100);
+				}	
+		
+		}
+	
+	};
+	
 	function formError(errorText) {
 		$("#message span").html(errorText);
 		
@@ -33,36 +108,14 @@
 			.animate({backgroundColor:initialColor}, 100);
 		}	
 		
-	
-		
 	}
 	
-	function validateEmail(inputText) {
-		var emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-		if(inputText.value.match(emailFormat)) {
-			return true;
-		} else { 
-			console.log("You have entered an invalid email address!");
-			return false;
-		}
-	}
 	
-	function validatePassword(inputText) {
-	// (?=.*\d) for at least one digit
-	// (?=.*[a-zA-Z]) for at least one letter
-	// (?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]) for at least one special character
-	// {6,20} for 6-20 characters in length
-		var passwordFormat = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{6,20}$/;
-		if(inputText.value.match(passwordFormat)) {
-			return true;
-		} else { 
-			console.log("You have entered an invalid password!");
-			return false;
-		}
-	}
-
+	$(document).ready(function() {
+		$("#email").blur(function() {validation.validate("email", "email")});
 	
-	$( document ).ready(function() {
+		//validation.validateEmail("mark1@gmail.com");
+		//validation.validatePassword("Aadsfad!1");
 	
 		console.log(navigator.vibrate); //log errors related to vibrate plugin/function
 	
