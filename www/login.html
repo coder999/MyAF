@@ -13,42 +13,96 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	
 	<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+	<script type="text/javascript" src="js/jquery.color-2.1.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="js/functions.js"></script>
 	
 	
 	<script type="text/javascript">
-	document.addEventListener("deviceready", onDeviceReady, false);
-	function onDeviceReady() {
-		console.log(navigator.vibrate);
+	function formError(errorText) {
+		$("#message span").html(errorText);
+		
+		
+		if ($("#message").css('display') == "none") {
+			$("#message").fadeIn();
+		} else {
+			var initialColor = $("#message").css("background-color");
+			$("#message")
+			.animate({backgroundColor:'#FF6666'}, 100)
+			.delay(100)
+			.animate({backgroundColor:initialColor}, 100);
+		}	
+		
+	
+		
 	}
 	
+	function validateEmail(inputText) {
+		var emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		if(inputText.value.match(emailFormat)) {
+			return true;
+		} else { 
+			console.log("You have entered an invalid email address!");
+			return false;
+		}
+	}
+	
+	function validatePassword(inputText) {
+	// (?=.*\d) for at least one digit
+	// (?=.*[a-zA-Z]) for at least one letter
+	// (?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]) for at least one special character
+	// {6,20} for 6-20 characters in length
+		var passwordFormat = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{6,20}$/;
+		if(inputText.value.match(passwordFormat)) {
+			return true;
+		} else { 
+			console.log("You have entered an invalid password!");
+			return false;
+		}
+	}
+
 	
 	$( document ).ready(function() {
-			$("#submit").click(function(){
-				var email=$("#email").val();
-				var password=$("#password").val();
-				var dataString="email="+email+"&password="+password;
-				if($.trim(email).length>0 & $.trim(password).length>0) {
-					$.ajax({
-					type: "POST",
-					url: "http://medicineinnovation.com/myafib/processor.php",
-					data: dataString,
-					crossDomain: true,
-					cache: false,
-					beforeSend: function(){ $("#submit").val('Connecting...');},
-					success: function(data){
-						if(data=="success") {
-							//alert("You are now logged in");
-							localStorage.loggedIn = 1;
-						} else if(data=="failed"){
-							//alert("Your username/password combo is incorrect");
-							$("#message span").html("Your username/password combo is incorrect.");
-							$("#message").fadeIn();
-						} else { alert(data); }
-					}
-					});
-				} return false;
-			});
+	
+		console.log(navigator.vibrate); //log errors related to vibrate plugin/function
+	
+		$("#submit").click(function(){
+			var email=$("#email").val();
+			var password=$("#password").val();
+			var validationErrors = new Array();
+			
+			//Client side validation here
+			if (email.length == 0) {validationErrors.push("Please enter your email address");}
+			if ($("#email").is(":invalid")) {validationErrors.push("Please enter a valid email address");}
+
+			//If no errors, proceed with form submission, otherwise 
+			
+			var dataString="email="+email+"&password="+password;
+			if(validationErrors.length == 0) {
+				$.ajax({
+				type: "POST",
+				url: "http://medicineinnovation.com/myafib/processor.php",
+				data: dataString,
+				crossDomain: true,
+				cache: false,
+				beforeSend: function(){ $("#submit").val('Connecting...');},
+				success: function(data){
+					if(data=="success") {
+						//alert("You are now logged in");
+						localStorage.loggedIn = 1;
+					} else if(data=="failed"){
+						//alert("Your username/password combo is incorrect");
+						formError("Your username/password combo is incorrect.");
+						$("#submit").val('Submit')
+					} else { alert(data); }
+				}
+				});
+			} else { //Deal with validation errors
+				validationErrors.forEach(function(element) {
+					console.log(element);
+				});
+			} return false;
+		});
 			
 	});
 	
@@ -77,17 +131,23 @@
 
 	<img src ="img/logo.png" />
 
-	<h1>Log in</h1>
-	
-	<div id="message">
-		<h2>Error</h2>
-		<span></span>
-	</div>
 	
 	<form id="login">
-	Email <input type="email" id="email" required /><br />
-	Password <input type="password" id="password" autocomplete="off" required />
-	<input type="submit" id="submit" />
+		<h1>Log in</h1>
+		
+		<div class="formMain">
+			
+			<div id="message">
+				<h2>Error</h2>
+				<span></span>
+			</div>
+			
+			<div class="errorBubble" id="emailError">Please enter a valid email address</div>
+			<h2>Email</h2><input type="text" id="email" autofocus  /><br />
+			<div class="errorBubble" id="passwordError">Please enter a valid password</div>
+			<h2>Password</h2><input type="password" id="password" autocomplete="off" />
+			<input type="submit" id="submit" />
+		</div>
 	</form>
 
 	<br />

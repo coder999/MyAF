@@ -7,6 +7,7 @@
 	table { width:auto; border-collapse: collapse;border-spacing: 0; }
 	article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
 
+/* BASIC SETTINGS */
 html {font-size: 1.375em }
 body { font-style: sans-serif  color: black; background:#86C98A repeat center top; color: #000000; text-align: center;}
 .clear {clear: both;}
@@ -14,15 +15,8 @@ h1 { font-size: 32pt; font-weight: bold; margin-top: 15px; margin-bottom: 20px; 
 h2 { font-size: 24pt; font-weight: bold; }
 a { color: #000; text-decoration: none; }
 
-form, select, input, a { font-size: 20pt; font-weight: bold; }
-
-form input { border: 1px solid black; }
-#message { color: #4C0000; margin: 0px 20% 10px 20%; background-color: #FFBDBD; padding: 5px 15px 5px 15px; border-radius: 5px; border: 1px solid black; display: none; }
-
+/* HOME PAGE */
 input[type=button], input[type=submit], select, a.button { width: 80%; display: block; margin: auto; border-radius: 3px;  background: #54A759; border: 0px solid #fff; padding: 5px 15px 5px 15px; box-shadow: inset -1px -1px 4px #004304; margin-bottom: 15px; }
-#initialsdiv select{display: inline; width: 20%;}
-#initialsdiv {text-align: center;}
-
 .main {padding-top: 60px;}
 .main a.button, .main h2 { line-height: 60px; }
 .main a.button  img, .main h2 img{ vertical-align: middle; padding-right: 10px; }
@@ -30,9 +24,22 @@ a.button { margin-top: 10px; margin-bottom: 30px; font-size: 20pt; line-height: 
 .toplink { float: left; }
 .topbar { border-bottom: 1px solid #000000; background-color: #FFD1AA; position: fixed; width: 100%; height: 60px; }
 
+/* LOGIN PAGE BUTTONS */
+form, select, input, a { font-size: 20pt; font-weight: bold; }
+form { display: block; background-color: #ECF1F1; width: 80%; margin: 0px auto 0px auto; border: 1px solid #000000; border-radius: 15px;} 
+form h1 { margin: 0px; font-size: 16pt; line-height: 36pt; border-bottom: 0px solid #4C0000; background-color: #FFD1AA; border-top-left-radius: inherit; border-top-right-radius: inherit; }
+.formMain { margin: 20px; }
+form .formMain h2 { line-height: 14pt; margin: 0px;  text-align: left; }
+form .formMain h2, .errorBubble { font-size: 14pt; }
+form input { border: 1px solid black; display: block; width: 100%; margin: auto; border-radius: 5px; }
+input[type=submit] { margin-top: 10px; background-color: #BBDDCC; font-size: 14pt; box-shadow: inset -1px -1px 4px #111111; cursor: pointer; }
+#message, .errorBubble { background-color: #FFBDBD;border: 1px solid #4C0000; color: #4C0000; padding: 5px 15px 5px 15px; border-radius: 5px; }
+#message { margin: 0px 20% 10px 20%;  display: none; }
+.errorBubble { position: relative; width: 80%; margin: auto; }
+.errorBubble:after, .errorBubble:before {top: 100%;	left: 90%; border: solid transparent; content: " "; height: 0; width: 0;	position: absolute;	pointer-events: none;}
 
-.triage { width: 50%; margin: auto; text-align: left; font-size: 150%; list-style-type: none;}
-.triage li { margin: 20px 0px 20px 0px;  }
-.triage img { height: 40px; vertical-align: middle; padding-right: 10px; }
-.triage a { color: inherit; text-decoration: underline; }
-.afterhours, .regularhours {display: none;}
+.errorBubble:after { border-color: rgba(255, 255, 255, 0); border-top-color: #FFBDBD; border-width: 31px; margin-left: -31px;}
+.errorBubble:before { border-color: rgba(245, 0, 0, 0); border-top-color: #4C0000; border-width: 32px;margin-left: -32px;}
+
+
+
