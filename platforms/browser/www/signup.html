@@ -56,14 +56,14 @@ $(document).ready(function() {
 						}
 					}
 					
-						for (var key in dataSent) {//hide error messages if they are currently shown
-							//console.log(dataSent[key][2]+":"+dataReceived["fieldErrorMessages"][dataSent[key][2]]);
-							if (typeof dataReceived["fieldErrorMessages"] == "undefined") {
-								document.getElementById(dataSent[key][2]+"Error").style.display = "none";
-							} else if (typeof dataReceived["fieldErrorMessages"][dataSent[key][2]] == "undefined") {
-								document.getElementById(dataSent[key][2]+"Error").style.display = "none";
-							}
+					for (var key in dataSent) {//hide error messages if they are currently shown
+						//console.log(dataSent[key][2]+":"+dataReceived["fieldErrorMessages"][dataSent[key][2]]);
+						if (typeof dataReceived["fieldErrorMessages"] == "undefined") {
+							document.getElementById(dataSent[key][2]+"Error").style.display = "none";
+						} else if (typeof dataReceived["fieldErrorMessages"][dataSent[key][2]] == "undefined") {
+							document.getElementById(dataSent[key][2]+"Error").style.display = "none";
 						}
+					}
 						
 					if (typeof dataReceived["topMessage"] != "undefined") { //display message returned from server
 						validation.displayMessage(dataReceived["topMessage"]);
@@ -99,9 +99,9 @@ $(document).ready(function() {
 
 	<img src ="img/logo.png" />
 
-	<div class="formContainer">	
+	<div class="formContainer">
 		<form id="login">
-			<h1>Log in</h1>
+			<h1>Create Your Account Below</h1>
 			
 			<div class="formMain">
 				
@@ -110,11 +110,53 @@ $(document).ready(function() {
 					<span></span>
 				</div>
 				
-				<div class="errorBubble" id="emailError">Please enter a valid email address</div>
+				<div class="twoColumn leftColumn">
+					<div class="errorBubble" id="firstNameError"></div>
+					<h2>First Name</h2><input type="text" id="firstName" />
+				</div>
+				
+				<div class="twoColumn rightColumn">
+					<div class="errorBubble" id="lastNameError"></div>
+					<h2>Last Name</h2><input type="text" id="lastName" />
+				</div>
+				
+				<div class="clear"></div>
+				
+				<div class="errorBubble" id="emailError"></div>
 				<h2>Email</h2><input type="text" id="email"  />
-				<div class="errorBubble" id="passwordError">Please enter a valid password</div>
+
+				<div class="errorBubble" id="passwordError"></div>
 				<h2>Password</h2><input type="password" id="password" autocomplete="off" />
-				<input type="submit" id="submit" value="Log in" />
+				
+				
+				<div class="errorBubble" id="dateOfBirthError"></div>
+				<h2>Date of birth</h2>
+				<div class="threeColumn leftColumn">
+					<h3>Month</h3>
+					<select name="month">
+						<option value="1">January</option>
+						<option value="1">January</option>
+						<option value="1">January</option>
+					</select>
+				</div>
+				<div class="threeColumn middleColumn">
+					<h3>Day</h3>
+					<select name="day">
+						<option value=1>1</option>
+					</select>
+				</div>
+				<div class="threeColumn rightColumn">
+					<h3>Year</h3>
+					<select name="year">
+						<option value="1910">1910</option>
+						<option value="1910">1910</option>
+						<option value="1910">1910</option>
+						<option value="1910">1910</option>
+						<option value="1910">1910</option>
+					</select>
+				</div>
+				
+				<input type="submit" id="submit" value="Submit" />
 			</div>
 		</form>
 	</div>
