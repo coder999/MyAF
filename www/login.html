@@ -22,26 +22,48 @@
 	<script type="text/javascript">
 $(document).ready(function() {
 	
-	$("#email").blur(function() {validation.validate("email", "email")});
-	$("#password").blur(function() {validation.validate("password", "password")});
+	
+	
+	//$("#email").blur(function() {validation.validate("email", "email")});
+	//$("#password").blur(function() {validation.validate("password", "password")});
 	
 		$("#submit").click(function(){
-			
+		
+		
+		
+			var dataSent = {} //id, value, type.  See below for loop.
+			var clientSideValidationGroup = {}; //{id:type,id:type}  ex. "email":"email", "password","password"  See below for loop.
+				
+			$("[data-validation-type]").each (function(index) {
+				dataSent[index]= [$(this).attr('id'),$(this).val(),$(this).attr('data-validation-type')];
+				/* how the dataSent object should be constructed
 			var dataSent = { //id, value, type
-				"1": ["email", $("#email").val(), "email"],
-				"2": ["password", $("#password").val(), "password"]
+				"0": ["email", $("#email").val(), $("#email").attr('data-validation-type')],
+				"1": ["password", $("#password").val(), $("#password").attr('data-validation-type')]
 			};
+			*/			
+				clientSideValidationGroup[$(this).attr('id')]=$(this).attr('data-validation-type');
+				/*how the clientSideValidationGroup should be constructed
+				{id:validationType, id2,validationType2}
+				ex. {"email":"email","password":"password"}
+				*/				
+				
+			});
 			
+			//alert(validation.validateGroup(clientSideValidationGroup,true));
+			//console.log(clientSideValidationGroup);
+			//console.log(dataSent);
 			
-			if(validation.validateGroup({"email":"email","password":"password"},true)) {//If no errors, proceed with form submission 
-				//console.log(dataSent);
+			//validation.validateGroup(clientSideValidationGroup,true)
+			if(validation.validateGroup(clientSideValidationGroup,true)) {//If no errors, proceed with form submission 
 				
 				$.ajax({
 				type: "POST",
-				url: "http://medicineinnovation.com/myafib/processor.php",
+				url: "http://medicineinnovation.com/myafib/login.php",
 				//contentType: 'application/json; charset=UTF-8',
 				data: dataSent,
 				dataType: 'json',
+				error: function(jqXHR,textStatus,errorThrown) { validation.displayMessage("There was an error connecting to the server.  Please try again when you have internet acccess."); console.log(errorThrown); $("#submit").val('Log in'); },//Function( jqXHR jqXHR, String textStatus, String errorThrown )
 				crossDomain: true,
 				cache: false,
 				beforeSend: function(){ $("#submit").val('Connecting...');},
@@ -56,14 +78,15 @@ $(document).ready(function() {
 						}
 					}
 					
-						for (var key in dataSent) {//hide error messages if they are currently shown
-							//console.log(dataSent[key][2]+":"+dataReceived["fieldErrorMessages"][dataSent[key][2]]);
-							if (typeof dataReceived["fieldErrorMessages"] == "undefined") {
-								document.getElementById(dataSent[key][2]+"Error").style.display = "none";
-							} else if (typeof dataReceived["fieldErrorMessages"][dataSent[key][2]] == "undefined") {
-								document.getElementById(dataSent[key][2]+"Error").style.display = "none";
-							}
+					for (var key in dataSent) {//hide error messages if errors have been corrected
+						//console.log(dataSent[key][0]);
+						if (typeof dataReceived["fieldErrorMessages"] == "undefined") {
+							$('.errorBubble').css("display","none"); // hide all errors
+						} else if (typeof dataReceived["fieldErrorMessages"][dataSent[key][0]] == "undefined") {
+							
+							$("#"+dataSent[key][0]).siblings(".errorBubble").css("display","none"); // hide an error field if it doesn't exist in returned errors array
 						}
+					}
 						
 					if (typeof dataReceived["topMessage"] != "undefined") { //display message returned from server
 						validation.displayMessage(dataReceived["topMessage"]);
@@ -97,7 +120,7 @@ $(document).ready(function() {
 
 <div class="main">
 
-	<img src ="img/logo.png" />
+	<img src ="img/logo.png" alt="MyAFib" />
 
 	<div class="formContainer">	
 		<form id="login">
@@ -109,11 +132,14 @@ $(document).ready(function() {
 					<h2>Error</h2>
 					<span></span>
 				</div>
-				
-				<div class="errorBubble" id="emailError">Please enter a valid email address</div>
-				<h2>Email</h2><input type="text" id="email"  />
-				<div class="errorBubble" id="passwordError">Please enter a valid password</div>
-				<h2>Password</h2><input type="password" id="password" autocomplete="off" />
+				<div><!--needs to be in a div to select only one sibling for the error -->
+					<div class="errorBubble">Please enter a valid email address</div>
+					<h2>Email</h2><input type="text" id="email" data-validation-type="email"  />
+				</div>
+				<div>
+					<div class="errorBubble">Please enter a valid password</div>
+					<h2>Password</h2><input type="password" id="password" autocomplete="off"  data-validation-type="password" />
+				</div>
 				<input type="submit" id="submit" value="Log in" />
 			</div>
 		</form>

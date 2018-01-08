@@ -32,6 +32,18 @@ var validation = {
 				return false;
 			}
 		},
+		validateName: function(inputText) {
+			// /[a-zA-Z ]+/ for alpha characters and spaces only
+			// {2,50} for 2-50 characters in length
+			//^[0-9]{4,6}$
+			var nameFormat = /[a-zA-Z ]{2,50}$/;
+			if(inputText.match(nameFormat)) {
+				return true;
+			} else { 
+				//console.log("You have entered an invalid name!");
+				return false;
+			}
+		},
 		validate: function(elementID, validationType, returnIsValid) {
 			this.isValid = true;
 			this.errorCount = 0;
@@ -39,14 +51,11 @@ var validation = {
 			if (validationType == "email") {
 				if (this.checkIfNotEmpty(inputValue)) {
 					//console.log("Email contains something");
-					if (this.validateEmail(inputValue)) {
-						//console.log("Email is a valid email");
-						document.getElementById(elementID+"Error").style.display = "none";
-					} else {
+					if (!this.validateEmail(inputValue)) {
 						//console.log("Email is NOT valid email");
 						this.errorCount ++;
 						this.displayError(elementID, "Please enter a valid email address (ex. jim@company.com)");
-					}
+					} else { this.hideError(elementID)} //hide error message since it has validated
 				} else {
 					//console.log("Email field is empty");
 					this.displayError(elementID, "Please enter your email address");
@@ -55,22 +64,38 @@ var validation = {
 			} else if (validationType == "password") {
 				if (this.checkIfNotEmpty(inputValue)) {
 					//console.log("password contains something");
-					if (this.validatePassword(inputValue)) {
-						//console.log("Password is a valid email");
-						document.getElementById(elementID+"Error").style.display = "none";
-					} else {
+					if (!this.validatePassword(inputValue)) {
 						//console.log("Password is NOT valid password");
 						this.errorCount ++;
 						this.displayError(elementID, "Your password must contain at least one number, uppercase letter, lowercase letter, a special character, and be 6-20 characters long.");
-					}
+					} else { this.hideError(elementID)} //hide error message since it has validated
 				} else {
 					//console.log("Email field is empty");
 					this.displayError(elementID, "Please enter your password");
 					this.errorCount ++;
 				}
+			} else if (validationType == "name") {
+				if (this.checkIfNotEmpty(inputValue)) {
+					//console.log("name contains something");
+					if (!this.validateName(inputValue)) {
+						//console.log("Name is NOT a valid name");
+						this.errorCount ++;
+						this.displayError(elementID, "A name may only consist of letters and spaces and be 2-50 characters in length.");
+					} else { this.hideError(elementID)} //hide error message since it has validated
+				} else {
+					//console.log("Email field is empty");
+					this.displayError(elementID, "Name is required");
+					this.errorCount ++;
+				}
+			} else if (validationType == "date") {
+				if (!this.checkIfNotEmpty(inputValue)) {
+					//console.log("A date field is empty");
+					this.displayError(elementID, "Please make a selection");
+					this.errorCount ++;
+				} else { this.hideError(elementID)} //hide error message since it has validated
 			} else {
-				console.log("Unknown validation type");
-				this.errorCount ++;
+				console.log("Unknown validation type: "+ validationType + ". Skipping validation on this field.");
+				//this.errorCount ++;
 			}
 			
 			if (this.errorCount > 0) { this.isValid = false; } else { this.isValid = true; }
@@ -81,7 +106,7 @@ var validation = {
 			
 		}, validateGroup: function(group, returnIsValid) {
 			//key is ID and group[key] is validationType
-			//ex. an array like {'emailfield':'email', 'passwordfield','password'}
+			//ex. an array like {'emailfieldID':'email', 'passwordfieldID','password'}
 			this.groupErrorCount = 0;
 			
 			for (var key in group) {
@@ -98,8 +123,10 @@ var validation = {
 			}		
 
 		}, displayError: function(elementID, errorText) {
-			reference = "#" + elementID + "Error";
-			//Create a reference to the corresponding hidden error div by using the ID of the input element and appending "Error"
+			//Create a reference to the corresponding hidden error div as the <div> SIBLING of the element in question
+			reference = $("#" + elementID).siblings('.errorBubble');
+			//console.log($(reference).html());
+			
 			$(reference).html(errorText);
 				if ($(reference).css('display') == "none") {
 					$(reference).fadeIn();
@@ -112,6 +139,8 @@ var validation = {
 					.animate({backgroundColor:initialColor}, 100);
 				}	
 		
+		}, hideError: function(elementID) {
+			$("#" + elementID).siblings('.errorBubble').css('display','none');
 		}, displayMessage: function(messageText) {
 			$("#message span").html(messageText);
 		

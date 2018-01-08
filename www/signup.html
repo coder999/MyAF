@@ -21,32 +21,92 @@
 	
 	<script type="text/javascript">
 $(document).ready(function() {
+
+	getVars = getAllUrlParams(window.location.href);
+	if (typeof getVars["email"] != "undefined") { // fills in your email address if it is a get variable
+		$("#email").val(getVars["email"]);
+	}
+	//Initialize the form
+	currentYear = new Date().getFullYear();
+	
+	for (var i = currentYear-10; i >= currentYear-120; i--) { // Add years to the year field for 10 years prior to today up to 120 years ago
+      $('select[name="year"]').append($("<option></option>").attr("value", i).text(i));
+    }
+	
+	$('select[name="day"]').click(function() {
+		if ($('select[name="year"]').val().length == 0) {
+			$('select[name="day"]').blur();
+			alert("Please select a year first.");
+			$('select[name="year"]').focus();
+			return false;
+			
+		} else if ($('select[name="month"]').val().length == 0) {
+			$('select[name="day"]').blur();
+			alert("Please select a month first.");
+			$('select[name="month"]').focus();
+			return false;
+		}
+	});
+	
+	$('select[name="year"], select[name="month"]').change(function() { //If year and month are selected, populate the days
+		
+		if ($('select[name="year"]').val().length > 0 && $('select[name="month"]').val().length > 0 ) {
+			$('select[name="day"]').empty();
+		
+			var daysInSelectedMonth = new Date($('select[name="year"]').val(), $('select[name="month"]').val(), 0).getDate();
+
+			$('select[name="day"]').append($("<option></option>"));
+			
+			for (var i = 1; i <= daysInSelectedMonth; i++) {
+				$('select[name="day"]').append($("<option></option>").attr("value", i).text(i));
+				}
+		} else {
+			$('select[name="day"]').empty();
+		}
+	});
 	
 	$("#email").blur(function() {validation.validate("email", "email")});
 	$("#password").blur(function() {validation.validate("password", "password")});
 	
 		$("#submit").click(function(){
 			
+			var dataSent = {} //id, value, type.  See below for loop.
+			var clientSideValidationGroup = {}; //{id:type,id:type}  ex. "email":"email", "password","password"  See below for loop.
+				
+			$("[data-validation-type]").each (function(index) {
+				dataSent[index]= [$(this).attr('id'),$(this).val(),$(this).attr('data-validation-type')];
+				/* how the dataSent object should be constructed
 			var dataSent = { //id, value, type
-				"1": ["email", $("#email").val(), "email"],
-				"2": ["password", $("#password").val(), "password"]
+				"0": ["email", $("#email").val(), $("#email").attr('data-validation-type')],
+				"1": ["password", $("#password").val(), $("#password").attr('data-validation-type')]
 			};
+			*/			
+				clientSideValidationGroup[$(this).attr('id')]=$(this).attr('data-validation-type');
+				/*how the clientSideValidationGroup should be constructed
+				{id:validationType, id2,validationType2}
+				ex. {"email":"email","password":"password"}
+				*/				
+				
+			});
 			
+			console.log(clientSideValidationGroup);
+			console.log(dataSent);
 			
-			if(validation.validateGroup({"email":"email","password":"password"},true)) {//If no errors, proceed with form submission 
+			if(validation.validateGroup(clientSideValidationGroup,true)) {//If no errors, proceed with form submission 
 				//console.log(dataSent);
 				
 				$.ajax({
 				type: "POST",
-				url: "http://medicineinnovation.com/myafib/processor.php",
+				url: "http://medicineinnovation.com/myafib/signup.php",
 				//contentType: 'application/json; charset=UTF-8',
 				data: dataSent,
 				dataType: 'json',
+				error: function(jqXHR,textStatus,errorThrown) { validation.displayMessage("There was an error connecting to the server.  Please try again when you have internet acccess."); console.log(errorThrown); $("#submit").val('Sign up'); },//Function( jqXHR jqXHR, String textStatus, String errorThrown )
 				crossDomain: true,
 				cache: false,
 				beforeSend: function(){ $("#submit").val('Connecting...');},
 				success: function(dataReceived){
-					$("#submit").val('Log in');
+					$("#submit").val('Sign up');
 					
 					//console.log(dataReceived);
 					
@@ -56,12 +116,15 @@ $(document).ready(function() {
 						}
 					}
 					
-					for (var key in dataSent) {//hide error messages if they are currently shown
-						//console.log(dataSent[key][2]+":"+dataReceived["fieldErrorMessages"][dataSent[key][2]]);
+					
+					for (var key in dataSent) {//hide error messages if errors have been corrected
+						//console.log(dataSent[key][0]);
 						if (typeof dataReceived["fieldErrorMessages"] == "undefined") {
-							document.getElementById(dataSent[key][2]+"Error").style.display = "none";
-						} else if (typeof dataReceived["fieldErrorMessages"][dataSent[key][2]] == "undefined") {
-							document.getElementById(dataSent[key][2]+"Error").style.display = "none";
+							$('.errorBubble').css("display","none"); // hide all errors
+						} else if (typeof dataReceived["fieldErrorMessages"][dataSent[key][0]] == "undefined") {
+
+							//console.log(dataSent[key][0]);
+							$("#"+dataSent[key][0]).siblings(".errorBubble").css("display","none"); // hide an error field if it doesn't exist in returned errors array
 						}
 					}
 						
@@ -97,10 +160,10 @@ $(document).ready(function() {
 
 <div class="main">
 
-	<img src ="img/logo.png" />
+	<img src ="img/logo.png" alt="MyAFib" />
 
 	<div class="formContainer">
-		<form id="login">
+		<form id="signup">
 			<h1>Create Your Account Below</h1>
 			
 			<div class="formMain">
@@ -111,52 +174,64 @@ $(document).ready(function() {
 				</div>
 				
 				<div class="twoColumn leftColumn">
-					<div class="errorBubble" id="firstNameError"></div>
-					<h2>First Name</h2><input type="text" id="firstName" />
+					<div class="errorBubble"></div>
+					<h2>First Name</h2><input type="text" id="firstName" data-validation-type="name" />
 				</div>
 				
 				<div class="twoColumn rightColumn">
-					<div class="errorBubble" id="lastNameError"></div>
-					<h2>Last Name</h2><input type="text" id="lastName" />
+					<div class="errorBubble"></div>
+					<h2>Last Name</h2><input type="text" id="lastName" data-validation-type="name" />
 				</div>
 				
 				<div class="clear"></div>
 				
-				<div class="errorBubble" id="emailError"></div>
-				<h2>Email</h2><input type="text" id="email"  />
+				<div><!--needs to be in a div to select only one sibling for the error -->
+					<div class="errorBubble"></div>
+					<h2>Email</h2><input type="text" id="email" data-validation-type="email" />
+				</div>
 
-				<div class="errorBubble" id="passwordError"></div>
-				<h2>Password</h2><input type="password" id="password" autocomplete="off" />
+				<div>
+					<div class="errorBubble"></div>
+					<h2>Password</h2><input type="password" id="password" autocomplete="off" data-validation-type="password" />
+				</div>
 				
 				
-				<div class="errorBubble" id="dateOfBirthError"></div>
 				<h2>Date of birth</h2>
 				<div class="threeColumn leftColumn">
-					<h3>Month</h3>
-					<select name="month">
-						<option value="1">January</option>
-						<option value="1">January</option>
-						<option value="1">January</option>
+					<div class="errorBubble"></div>
+					<h3>Year</h3>
+					<select name="year" id="year" data-validation-type="date">
+						<option value=""></option>
 					</select>
 				</div>
+
 				<div class="threeColumn middleColumn">
-					<h3>Day</h3>
-					<select name="day">
-						<option value=1>1</option>
+					<div class="errorBubble"></div>
+					<h3>Month</h3>
+					<select name="month" id="month" data-validation-type="date">
+						<option value="" selected></option>
+						<option value="1">January</option>
+						<option value="2">February</option>
+						<option value="3">March</option>
+						<option value="4">April</option>
+						<option value="5">May</option>
+						<option value="6">June</option>
+						<option value="7">July</option>
+						<option value="8">August</option>
+						<option value="9">September</option>
+						<option value="10">October</option>
+						<option value="11">November</option>
+						<option value="12">December</option>
 					</select>
 				</div>
 				<div class="threeColumn rightColumn">
-					<h3>Year</h3>
-					<select name="year">
-						<option value="1910">1910</option>
-						<option value="1910">1910</option>
-						<option value="1910">1910</option>
-						<option value="1910">1910</option>
-						<option value="1910">1910</option>
+					<div class="errorBubble"></div>
+					<h3>Day</h3>
+					<select name="day" id="day" data-validation-type="date">
 					</select>
 				</div>
 				
-				<input type="submit" id="submit" value="Submit" />
+				<input type="submit" id="submit" value="Sign up" />
 			</div>
 		</form>
 	</div>
