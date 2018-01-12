@@ -65,8 +65,8 @@ $(document).ready(function() {
 		}
 	});
 	
-	$("#email").blur(function() {validation.validate("email", "email")});
-	$("#password").blur(function() {validation.validate("password", "password")});
+	//$("#email").blur(function() {validation.validate("email", "email")});
+	//$("#password").blur(function() {validation.validate("password", "password")});
 	
 		$("#submit").click(function(){
 			
@@ -92,7 +92,8 @@ $(document).ready(function() {
 			console.log(clientSideValidationGroup);
 			console.log(dataSent);
 			
-			if(validation.validateGroup(clientSideValidationGroup,true)) {//If no errors, proceed with form submission 
+			// validation.validateGroup(clientSideValidationGroup,true)
+			if(true) {//If no errors, proceed with form submission 
 				//console.log(dataSent);
 				
 				$.ajax({

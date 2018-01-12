@@ -93,6 +93,11 @@ $(document).ready(function() {
 					} else { //hide it if there is no message to display
 						document.getElementById('message').style.display = "none";
 					} 
+						
+					if (typeof dataReceived["debug"] != "undefined") { //display any debugging messages
+							console.log("Debugging");
+							console.log(dataReceived["debug"]);
+					} 
 					
 					if (dataReceived["authenticated"] == true) {
 						localStorage.loggedIn = 1;
