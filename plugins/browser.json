@@ -1,15 +1,22 @@
 {
-    "prepare_queue": {
-        "installed": [],
-        "uninstalled": []
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-urlhandler": {
+      "URL_SCHEME": "myafib",
+      "PACKAGE_NAME": "com.phonegap.helloworld"
     },
-    "config_munge": {
-        "files": {}
+    "cordova-plugin-vibration": {
+      "PACKAGE_NAME": "com.phonegap.helloworld"
     },
-    "installed_plugins": {
-        "cordova-plugin-vibration": {
-            "PACKAGE_NAME": "com.phonegap.helloworld"
-        }
-    },
-    "dependent_plugins": {}
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.phonegap.helloworld"
+    }
+  },
+  "dependent_plugins": {}
 }

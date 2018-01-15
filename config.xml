@@ -7,13 +7,17 @@
     <author email="support@phonegap.com" href="http://phonegap.com">
         Mark K. Tuttle, MD
     </author>
-	<icon src="icon180x180.png" />
+    <icon src="icon180x180.png" />
     <content src="index.html" />
     <access origin="*" />
-	
-	<plugin name="cordova-plugin-whitelist" source="npm" />
-	<plugin name="cordova-plugin-vibration" source="npm" spec="~2.1.6" />
+    <plugin name="cordova-plugin-whitelist" source="npm" />
+    <plugin name="cordova-plugin-vibration" source="npm" spec="~2.1.6" />
 
+    <plugin name="cordova-plugin-urlhandler" spec="^0.7.2">
+        <variable name="URL_SCHEME" value="myafib" />
+    </plugin>
 	
-	<access origin='medicineinnovation.com' allows-arbitrary-loads-for-media='true' allows-arbitrary-loads-in-web-content='true' allows-local-networking='true' />
+	
+	<access allows-arbitrary-loads-for-media="true" allows-arbitrary-loads-in-web-content="true" allows-local-networking="true" origin="medicineinnovation.com" />
+    <engine name="browser" spec="~5.0.3" />
 </widget>

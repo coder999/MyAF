@@ -22,7 +22,9 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "cordova-plugin-vibration": "2.1.6"
+    "cordova-plugin-urlhandler": "0.7.0",
+    "cordova-plugin-vibration": "2.1.6",
+    "cordova-plugin-whitelist": "1.3.3"
 }
 // BOTTOM OF METADATA
 });

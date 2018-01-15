@@ -21,8 +21,11 @@
 	
 	<script type="text/javascript">
 $(document).ready(function() {
-	
-	
+
+	getVars = getAllUrlParams(window.location.href);
+	if (typeof getVars["email"] != "undefined") { // fills in your email address if it is a get variable
+		$("#email").val(getVars["email"]);
+	}	
 	
 	//$("#email").blur(function() {validation.validate("email", "email")});
 	//$("#password").blur(function() {validation.validate("password", "password")});
@@ -93,6 +96,11 @@ $(document).ready(function() {
 					} else { //hide it if there is no message to display
 						document.getElementById('message').style.display = "none";
 					} 
+						
+					if (typeof dataReceived["debug"] != "undefined") { //display any debugging messages
+							console.log("Debugging");
+							console.log(dataReceived["debug"]);
+					} 
 					
 					if (dataReceived["authenticated"] == true) {
 						localStorage.loggedIn = 1;
@@ -129,18 +137,20 @@ $(document).ready(function() {
 			<div class="formMain">
 				
 				<div id="message">
-					<h2>Error</h2>
+					<!--<h2>Error</h2>-->
 					<span></span>
 				</div>
-				<div><!--needs to be in a div to select only one sibling for the error -->
-					<div class="errorBubble">Please enter a valid email address</div>
-					<h2>Email</h2><input type="text" id="email" data-validation-type="email"  />
+				<div class="formFields">
+					<div><!--needs to be in a div to select only one sibling for the error -->
+						<div class="errorBubble">Please enter a valid email address</div>
+						<h2>Email</h2><input type="text" id="email" data-validation-type="email"  />
+					</div>
+					<div>
+						<div class="errorBubble">Please enter a valid password</div>
+						<h2>Password</h2><input type="password" id="password" autocomplete="off"  data-validation-type="password" />
+					</div>
+					<input type="submit" id="submit" value="Log in" />
 				</div>
-				<div>
-					<div class="errorBubble">Please enter a valid password</div>
-					<h2>Password</h2><input type="password" id="password" autocomplete="off"  data-validation-type="password" />
-				</div>
-				<input type="submit" id="submit" value="Log in" />
 			</div>
 		</form>
 	</div>

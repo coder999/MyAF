@@ -58,8 +58,12 @@ $(document).ready(function() {
 			$('select[name="day"]').append($("<option></option>"));
 			
 			for (var i = 1; i <= daysInSelectedMonth; i++) {
-				$('select[name="day"]').append($("<option></option>").attr("value", i).text(i));
+				if (i.toString().length < 2) { //pad with zeroes if less than two digits
+					$('select[name="day"]').append($("<option></option>").attr("value", "0"+i).text(i));
+				} else {
+					$('select[name="day"]').append($("<option></option>").attr("value", i).text(i));
 				}
+			}
 		} else {
 			$('select[name="day"]').empty();
 		}
@@ -134,6 +138,11 @@ $(document).ready(function() {
 					} else { //hide it if there is no message to display
 						document.getElementById('message').style.display = "none";
 					} 
+
+					if (dataReceived["emailSent"] == true) {
+						$(".formFields").hide();
+						$(".formMain").append("<input type='button' value='Home' onclick='window.location.href=\"index.html\"' />");
+					}
 					
 					if (dataReceived["authenticated"] == true) {
 						localStorage.loggedIn = 1;
@@ -141,6 +150,11 @@ $(document).ready(function() {
 						window.location.href="index.html";
 					}
 					
+					if (typeof dataReceived["debug"] != "undefined") { //display any debugging messages
+						for (var key in dataReceived["debug"]) {
+							console.log("Debug: " + dataReceived["debug"][key]);
+						}
+					} 
 					
 					
 				}
@@ -170,69 +184,69 @@ $(document).ready(function() {
 			<div class="formMain">
 				
 				<div id="message">
-					<h2>Error</h2>
 					<span></span>
 				</div>
-				
-				<div class="twoColumn leftColumn">
-					<div class="errorBubble"></div>
-					<h2>First Name</h2><input type="text" id="firstName" data-validation-type="name" />
-				</div>
-				
-				<div class="twoColumn rightColumn">
-					<div class="errorBubble"></div>
-					<h2>Last Name</h2><input type="text" id="lastName" data-validation-type="name" />
-				</div>
-				
-				<div class="clear"></div>
-				
-				<div><!--needs to be in a div to select only one sibling for the error -->
-					<div class="errorBubble"></div>
-					<h2>Email</h2><input type="text" id="email" data-validation-type="email" />
-				</div>
+				<div class="formFields">
+					<div class="twoColumn leftColumn">
+						<div class="errorBubble"></div>
+						<h2>First Name</h2><input type="text" id="firstName" data-validation-type="name" />
+					</div>
+					
+					<div class="twoColumn rightColumn">
+						<div class="errorBubble"></div>
+						<h2>Last Name</h2><input type="text" id="lastName" data-validation-type="name" />
+					</div>
+					
+					<div class="clear"></div>
+					
+					<div><!--needs to be in a div to select only one sibling for the error -->
+						<div class="errorBubble"></div>
+						<h2>Email</h2><input type="text" id="email" data-validation-type="email" />
+					</div>
 
-				<div>
-					<div class="errorBubble"></div>
-					<h2>Password</h2><input type="password" id="password" autocomplete="off" data-validation-type="password" />
-				</div>
-				
-				
-				<h2>Date of birth</h2>
-				<div class="threeColumn leftColumn">
-					<div class="errorBubble"></div>
-					<h3>Year</h3>
-					<select name="year" id="year" data-validation-type="date">
-						<option value=""></option>
-					</select>
-				</div>
+					<div>
+						<div class="errorBubble"></div>
+						<h2>Password</h2><input type="password" id="password" autocomplete="off" data-validation-type="password" />
+					</div>
+					
+					
+					<h2>Date of birth</h2>
+					<div class="threeColumn leftColumn">
+						<div class="errorBubble"></div>
+						<h3>Year</h3>
+						<select name="year" id="year" data-validation-type="date">
+							<option value=""></option>
+						</select>
+					</div>
 
-				<div class="threeColumn middleColumn">
-					<div class="errorBubble"></div>
-					<h3>Month</h3>
-					<select name="month" id="month" data-validation-type="date">
-						<option value="" selected></option>
-						<option value="1">January</option>
-						<option value="2">February</option>
-						<option value="3">March</option>
-						<option value="4">April</option>
-						<option value="5">May</option>
-						<option value="6">June</option>
-						<option value="7">July</option>
-						<option value="8">August</option>
-						<option value="9">September</option>
-						<option value="10">October</option>
-						<option value="11">November</option>
-						<option value="12">December</option>
-					</select>
+					<div class="threeColumn middleColumn">
+						<div class="errorBubble"></div>
+						<h3>Month</h3>
+						<select name="month" id="month" data-validation-type="date">
+							<option value="" selected></option>
+							<option value="01">January</option>
+							<option value="02">February</option>
+							<option value="03">March</option>
+							<option value="04">April</option>
+							<option value="05">May</option>
+							<option value="06">June</option>
+							<option value="07">July</option>
+							<option value="08">August</option>
+							<option value="09">September</option>
+							<option value="10">October</option>
+							<option value="11">November</option>
+							<option value="12">December</option>
+						</select>
+					</div>
+					<div class="threeColumn rightColumn">
+						<div class="errorBubble"></div>
+						<h3>Day</h3>
+						<select name="day" id="day" data-validation-type="date">
+						</select>
+					</div>
+					
+					<input type="submit" id="submit" value="Sign up" />
 				</div>
-				<div class="threeColumn rightColumn">
-					<div class="errorBubble"></div>
-					<h3>Day</h3>
-					<select name="day" id="day" data-validation-type="date">
-					</select>
-				</div>
-				
-				<input type="submit" id="submit" value="Sign up" />
 			</div>
 		</form>
 	</div>
