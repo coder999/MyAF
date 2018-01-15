@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/phonegap/phonegap-app-blank#readme",
   "dependencies": {
+    "cordova-plugin-urlhandler": "^0.7.2",
     "cordova-plugin-vibration": "^3.0.0"
   }
 }

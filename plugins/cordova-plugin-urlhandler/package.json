@@ -1,0 +1,63 @@
+{
+  "_from": "cordova-plugin-urlhandler",
+  "_id": "cordova-plugin-urlhandler@0.7.2",
+  "_inBundle": false,
+  "_integrity": "sha1-K+LH74F/pm2jPq2uuocs7Okv9Co=",
+  "_location": "/cordova-plugin-urlhandler",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-urlhandler",
+    "name": "cordova-plugin-urlhandler",
+    "escapedName": "cordova-plugin-urlhandler",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-urlhandler/-/cordova-plugin-urlhandler-0.7.2.tgz",
+  "_shasum": "2be2c7ef817fa66da33eadaeba872cece92ff42a",
+  "_spec": "cordova-plugin-urlhandler",
+  "_where": "C:\\xampp\\htdocs\\MyA-fib\\phonegap",
+  "author": {
+    "name": "Martin Reinhardt"
+  },
+  "bugs": {
+    "url": "https://github.com/hypery2k/cordova-urlhandler-plugin/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-urlhandler",
+    "platforms": [
+      "android",
+      "ios",
+      "wp8",
+      "windows",
+      "windows8"
+    ]
+  },
+  "deprecated": false,
+  "description": "Cordova URL Handler Plugin",
+  "homepage": "https://github.com/hypery2k/cordova-urlhandler-plugin#readme",
+  "keywords": [
+    "cordova",
+    "urlhandler",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-wp8",
+    "cordova-windows",
+    "cordova-windows8"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-urlhandler",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hypery2k/cordova-urlhandler-plugin.git"
+  },
+  "version": "0.7.2"
+}
