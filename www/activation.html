@@ -21,11 +21,12 @@
 	
 	<script type="text/javascript">
 $(document).ready(function() {
-
+	
 	getVars = getAllUrlParams(window.location.href);
 	if (typeof getVars["email"] != "undefined") { // fills in your email address if it is a get variable
 		$("#email").val(getVars["email"]);
-	}	
+	}
+	
 	
 	//$("#email").blur(function() {validation.validate("email", "email")});
 	//$("#password").blur(function() {validation.validate("password", "password")});
@@ -62,16 +63,16 @@ $(document).ready(function() {
 				
 				$.ajax({
 				type: "POST",
-				url: "http://medicineinnovation.com/myafib/login.php",
+				url: "http://medicineinnovation.com/myafib/activation.php",
 				//contentType: 'application/json; charset=UTF-8',
 				data: dataSent,
 				dataType: 'json',
-				error: function(jqXHR,textStatus,errorThrown) { validation.displayMessage("There was an error connecting to the server.  Please try again when you have internet acccess."); console.log(errorThrown); $("#submit").val('Log in'); },//Function( jqXHR jqXHR, String textStatus, String errorThrown )
+				error: function(jqXHR,textStatus,errorThrown) { validation.displayMessage("There was an error connecting to the server.  Please try again when you have internet acccess."); console.log(errorThrown); $("#submit").val('Re-send activation email'); },//Function( jqXHR jqXHR, String textStatus, String errorThrown )
 				crossDomain: true,
 				cache: false,
 				beforeSend: function(){ $("#submit").val('Connecting...');},
 				success: function(dataReceived){
-					$("#submit").val('Log in');
+					$("#submit").val('Re-send activation email');
 					
 					//console.log(dataReceived);
 					
@@ -90,6 +91,17 @@ $(document).ready(function() {
 							$("#"+dataSent[key][0]).siblings(".errorBubble").css("display","none"); // hide an error field if it doesn't exist in returned errors array
 						}
 					}
+					
+					if (typeof dataReceived["emailSent"] != "undefined") { //display success message if email is sent successfully
+						if (dataReceived["emailSent"] == true) {
+							dataReceived["topMessage"] = "Your activation email has been successfully sent to "+$("#email").val()+".  Please check your email to complete the activation process.";
+							$(".formFields").hide();
+							$(".formMain").append("<input type='button' value='Home' onclick='window.location.href=\"index.html\"' />");
+						} else {
+							console.log("Email NOT sent successfully");
+						}
+					}
+					
 						
 					if (typeof dataReceived["topMessage"] != "undefined") { //display message returned from server
 						validation.displayMessage(dataReceived["topMessage"]);
@@ -101,12 +113,6 @@ $(document).ready(function() {
 							console.log("Debugging");
 							console.log(dataReceived["debug"]);
 					} 
-					
-					if (dataReceived["authenticated"] == true) {
-						localStorage.loggedIn = 1;
-						$("#submit").val('Logged in');
-						window.location.href="index.html";
-					}
 					
 					
 					
@@ -132,7 +138,7 @@ $(document).ready(function() {
 
 	<div class="formContainer">	
 		<form id="login">
-			<h1>Log in</h1>
+			<h1>Activate your account</h1>
 			
 			<div class="formMain">
 				
@@ -145,11 +151,7 @@ $(document).ready(function() {
 						<div class="errorBubble">Please enter a valid email address</div>
 						<h2>Email</h2><input type="text" id="email" data-validation-type="email"  />
 					</div>
-					<div>
-						<div class="errorBubble">Please enter a valid password</div>
-						<h2>Password</h2><input type="password" id="password" autocomplete="off"  data-validation-type="password" />
-					</div>
-					<input type="submit" id="submit" value="Log in" />
+					<input type="submit" id="submit" value="Re-send activation email" />
 				</div>
 			</div>
 		</form>
