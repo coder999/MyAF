@@ -13,9 +13,7 @@
 	
 	<plugin name="cordova-plugin-whitelist" source="npm" />
 	<plugin name="cordova-plugin-vibration" source="npm" spec="~2.1.6" />
-	<plugin name="cordova-plugin-urlhandler" source="npm">
-		<paramname="URL_SCHEME" value="myafib" />
-	</plugin>
+
 	
 	<access origin='medicineinnovation.com' allows-arbitrary-loads-for-media='true' allows-arbitrary-loads-in-web-content='true' allows-local-networking='true' />
 </widget>

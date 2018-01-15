@@ -10,7 +10,7 @@
   "cordova-plugin-urlhandler": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-urlhandler"
+      "id": "cordova-plugin-urlhandler@^0.7.2"
     },
     "is_top_level": true,
     "variables": {
