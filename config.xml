@@ -14,7 +14,7 @@
     <plugin name="cordova-plugin-vibration" source="npm" spec="~2.1.6" />
     <access allows-arbitrary-loads-for-media="true" allows-arbitrary-loads-in-web-content="true" allows-local-networking="true" origin="medicineinnovation.com" />
     <engine name="browser" spec="~5.0.3" />
-    <plugin name="cordova-plugin-urlhandler" spec="^0.7.2">
+    <plugin name="cordova-plugin-urlhandler" source="npm" >
         <variable name="URL_SCHEME" value="myafib" />
     </plugin>
 </widget>
