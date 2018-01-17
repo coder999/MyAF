@@ -18,6 +18,11 @@
 	
 	
 	<script type="text/javascript">
+	window.handleOpenURL = function (url) {
+		alert(url.slice(9));
+		window.location.hash = url.slice(9) // your URLscheme.length
+    }
+	
 	document.addEventListener("deviceready", onDeviceReady, false);
 	function onDeviceReady() {
 		console.log(navigator.vibrate);
