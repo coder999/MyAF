@@ -18,10 +18,10 @@
 	
 	
 	<script type="text/javascript">
-	window.handleOpenURL = function (url) {
-		alert(url.slice(9));
-		window.location.hash = url.slice(9) // your URLscheme.length
-    }
+	function handleOpenURL (url) {
+		window.location.href=url;
+	}
+	
 	
 	document.addEventListener("deviceready", onDeviceReady, false);
 	function onDeviceReady() {
