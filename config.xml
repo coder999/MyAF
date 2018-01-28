@@ -16,4 +16,6 @@
     <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
         <variable name="URL_SCHEME" value="myafib" />
     </plugin>
+	
+	<allow-intent href="myafib:" />
 </widget>
