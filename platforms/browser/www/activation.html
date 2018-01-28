@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>MyA-Fib</title>
+
+	
+	<!-- Specify a stylesheet -->
+
+	<link rel="stylesheet" href="css/default.css" title="style" media="screen" type="text/css" />
+
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	
+	<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+	<script type="text/javascript" src="js/jquery.color-2.1.2.min.js"></script>
+<!--<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+-->
+	<script type="text/javascript" src="js/functions.js"></script>
+	<script type="text/javascript" src="js/validate.js"></script>
+	
+	<script type="text/javascript">
+$(document).ready(function() {
+	
+	getVars = getAllUrlParams(window.location.href);
+	if (typeof getVars["email"] != "undefined") { // fills in your email address if it is a get variable
+		$("#email").val(getVars["email"]);
+	}
+	
+	
+	//$("#email").blur(function() {validation.validate("email", "email")});
+	//$("#password").blur(function() {validation.validate("password", "password")});
+	
+		$("#submit").click(function(){
+		
+		
+		
+			var dataSent = {} //id, value, type.  See below for loop.
+			var clientSideValidationGroup = {}; //{id:type,id:type}  ex. "email":"email", "password","password"  See below for loop.
+				
+			$("[data-validation-type]").each (function(index) {
+				dataSent[index]= [$(this).attr('id'),$(this).val(),$(this).attr('data-validation-type')];
+				/* how the dataSent object should be constructed
+			var dataSent = { //id, value, type
+				"0": ["email", $("#email").val(), $("#email").attr('data-validation-type')],
+				"1": ["password", $("#password").val(), $("#password").attr('data-validation-type')]
+			};
+			*/			
+				clientSideValidationGroup[$(this).attr('id')]=$(this).attr('data-validation-type');
+				/*how the clientSideValidationGroup should be constructed
+				{id:validationType, id2,validationType2}
+				ex. {"email":"email","password":"password"}
+				*/				
+				
+			});
+			
+			//alert(validation.validateGroup(clientSideValidationGroup,true));
+			//console.log(clientSideValidationGroup);
+			//console.log(dataSent);
+			
+			//validation.validateGroup(clientSideValidationGroup,true)
+			if(validation.validateGroup(clientSideValidationGroup,true)) {//If no errors, proceed with form submission 
+				
+				$.ajax({
+				type: "POST",
+				url: "http://medicineinnovation.com/myafib/activation.php",
+				//contentType: 'application/json; charset=UTF-8',
+				data: dataSent,
+				dataType: 'json',
+				error: function(jqXHR,textStatus,errorThrown) { validation.displayMessage("There was an error connecting to the server.  Please try again when you have internet acccess."); console.log(errorThrown); $("#submit").val('Re-send activation email'); },//Function( jqXHR jqXHR, String textStatus, String errorThrown )
+				crossDomain: true,
+				cache: false,
+				beforeSend: function(){ $("#submit").val('Connecting...');},
+				success: function(dataReceived){
+					$("#submit").val('Re-send activation email');
+					
+					//console.log(dataReceived);
+					
+					if (typeof dataReceived["fieldErrorMessages"] != "undefined") { //display error messages related to text fields
+						for (var key in dataReceived["fieldErrorMessages"]) {
+							validation.displayError(key,dataReceived["fieldErrorMessages"][key]);
+						}
+					}
+					
+					for (var key in dataSent) {//hide error messages if errors have been corrected
+						//console.log(dataSent[key][0]);
+						if (typeof dataReceived["fieldErrorMessages"] == "undefined") {
+							$('.errorBubble').css("display","none"); // hide all errors
+						} else if (typeof dataReceived["fieldErrorMessages"][dataSent[key][0]] == "undefined") {
+							
+							$("#"+dataSent[key][0]).siblings(".errorBubble").css("display","none"); // hide an error field if it doesn't exist in returned errors array
+						}
+					}
+					
+					if (typeof dataReceived["emailSent"] != "undefined") { //display success message if email is sent successfully
+						if (dataReceived["emailSent"] == true) {
+							dataReceived["topMessage"] = "Your activation email has been successfully sent to "+$("#email").val()+".  Please check your email to complete the activation process.";
+							$(".formFields").hide();
+							$(".formMain").append("<input type='button' value='Home' onclick='window.location.href=\"index.html\"' />");
+						} else {
+							console.log("Email NOT sent successfully");
+						}
+					}
+					
+						
+					if (typeof dataReceived["topMessage"] != "undefined") { //display message returned from server
+						validation.displayMessage(dataReceived["topMessage"]);
+					} else { //hide it if there is no message to display
+						document.getElementById('message').style.display = "none";
+					} 
+						
+					if (typeof dataReceived["debug"] != "undefined") { //display any debugging messages
+							console.log("Debugging");
+							console.log(dataReceived["debug"]);
+					} 
+					
+					
+					
+				}
+				});
+			} else { return false; //there are validation errors
+			} return false;
+		});
+			
+	});
+	
+	</script>
+	
+	<!--
+	<meta name="viewport" content="width=device-width, initial-scale=2.0">
+	-->
+	<link rel="icon" href="img/favicon-16x16.png">
+</head>
+
+<div class="main">
+
+	<img src ="img/logo.png" alt="MyAFib" />
+
+	<div class="formContainer">	
+		<form id="login">
+			<h1>Activate your account</h1>
+			
+			<div class="formMain">
+				
+				<div id="message">
+					<!--<h2>Error</h2>-->
+					<span></span>
+				</div>
+				<div class="formFields">
+					<div><!--needs to be in a div to select only one sibling for the error -->
+						<div class="errorBubble">Please enter a valid email address</div>
+						<h2>Email</h2><input type="text" id="email" data-validation-type="email"  />
+					</div>
+					<input type="submit" id="submit" value="Re-send activation email" />
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<br />
+	<span class="footerText">
+Copyright &copy; <script>document.write(new Date().getFullYear())</script> Mark Tuttle MD.  All rights reserved.
+</span>
+
+</div>
+
+
+</body>
+
+</html>
