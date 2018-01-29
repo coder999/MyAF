@@ -25,9 +25,12 @@
 	
 	function handleOpenURL(url) {
 		if (url.indexOf("activate?code=")> -1) {
+			document.write(url);
 			code = url.substr(url.indexOf("activate?code="));
 			alert(code);
 			location.href="activate.html?code="+code;
+		} else {
+		document.write("activate?code= was not found in the url string");
 		}
 		
 		//if (typeof getVars["email"] != "undefined") {		}
@@ -36,7 +39,7 @@
 
 	$(document).ready(function() {
 		//getVars = getAllUrlParams(window.location.href);
-		
+		alert(url);
 		//alert(getVars['code']);
 		
 		});
