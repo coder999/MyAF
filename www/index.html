@@ -28,12 +28,9 @@
 			//document.write(url);
 			prefix = "activate.html?code=";
 			code = url.substr(url.indexOf(prefix)+prefix.length);
-			alert(code);
+			//alert(code);
 			location.href="activate.html?code="+code;
-		} else {
-		document.write("activate?code= was not found in the url string");
-		}
-		
+		} 		
 		//if (typeof getVars["email"] != "undefined") {		}
 		
 	}
