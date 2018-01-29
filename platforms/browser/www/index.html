@@ -27,7 +27,7 @@
 		if (url.indexOf("activate.html?code=")> -1) {
 			//document.write(url);
 			code = url.substr(url.indexOf("activate.html?code="));
-			//alert(code);
+			alert(code);
 			location.href="activate.html?code="+code;
 		} else {
 		document.write("activate?code= was not found in the url string");
