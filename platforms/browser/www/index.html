@@ -18,10 +18,16 @@
 	
 	<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
 	<script type="text/javascript" src="js/functions.js"></script>
-	
+	<script src="cordova.js"></script>
 	
 	
 	<script type="text/javascript">
+	
+	function handleOpenURL(url) {
+  setTimeout(function() {
+    alert("received url: " + url);
+  }, 0);
+}
 
 	$(document).ready(function() {
 		getVars = getAllUrlParams(window.location.href);
