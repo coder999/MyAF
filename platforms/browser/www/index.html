@@ -26,7 +26,8 @@
 	function handleOpenURL(url) {
 		if (url.indexOf("activate.html?code=")> -1) {
 			//document.write(url);
-			code = url.substr(url.indexOf("activate.html?code="));
+			prefixLength = "activate.html?code=";
+			code = url.substr(prefixLength.length);
 			alert(code);
 			location.href="activate.html?code="+code;
 		} else {
