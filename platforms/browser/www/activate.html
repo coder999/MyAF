@@ -71,7 +71,7 @@ $(document).ready(function() {
 			});
 		} else { //no activation code was supplied
 			$("#loadingGif").hide();
-			validation.displayMessage("There was a problem with that activation code. <a href='activation.html'>Click here</a> to re-send your activation email.");
+			validation.displayMessage("No activation code was received. <a href='activation.html'>Click here</a> to re-send your activation email.");
 			console.log("No activation code was supplied or was null;");
 		}
 		});
