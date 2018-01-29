@@ -1,14 +1,3 @@
-window.handleOpenURL = function(url) {
-  console.log(">>>>>>>>>>>>>>>>>>>");
-  // do stuff, for example
-  // document.getElementById("url").value = url;
-  console.log(url);
-    setTimeout(function() {
-	document.write(url);
-    //alert("received url: " + url);
-  }, 0);
-};
-
 
 function getAllUrlParams(url) {
 
