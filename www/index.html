@@ -22,26 +22,21 @@
 	
 	
 	<script type="text/javascript">
-	window.handleOpenURL = function(url) {
-  console.log(">>>>>>>>>>>>>>>>>>>");
-  // do stuff, for example
-  // document.getElementById("url").value = url;
-  console.log(url);
-    setTimeout(function() {
-	document.write(url);
-    //alert("received url: " + url);
-  }, 0);
-};
-	
 
-document.write("test");
+	$(document).ready(function() {
+		getVars = getAllUrlParams(window.location.href);
+		
+		alert(getVars['code']);
+		
+		}
 	
-	
+	/*
 	document.addEventListener("deviceready", onDeviceReady, false);
 	function onDeviceReady() {
 		console.log(navigator.vibrate);
 		
 	}
+	*/
 	</script>
 	
 	<!--
@@ -62,6 +57,19 @@ document.write("test");
 </script>
 <![endif]-->
 </head>
+<body>
+<script>
+function handleOpenURL(url) {
+  console.log(">>>>>>>>>>>>>>>>>>>");
+  // do stuff, for example
+  // document.getElementById("url").value = url;
+  console.log(url);
+    setTimeout(function() {
+	document.write(url);
+    //alert("received url: " + url);
+  }, 0);
+}
+</script>
 
 <div class="main">
 
