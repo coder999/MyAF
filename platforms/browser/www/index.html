@@ -24,15 +24,15 @@
 	<script type="text/javascript">
 	
 	function handleOpenURL(url) {
-  setTimeout(function() {
-    alert("received url: " + url);
-  }, 0);
-}
+		setTimeout(function() {
+			alert("received url: " + url);
+		}, 0);
+	}
 
 	$(document).ready(function() {
-		getVars = getAllUrlParams(window.location.href);
+		//getVars = getAllUrlParams(window.location.href);
 		
-		alert(getVars['code']);
+		//alert(getVars['code']);
 		
 		});
 	
@@ -64,18 +64,7 @@
 <![endif]-->
 </head>
 <body>
-<script>
-function handleOpenURL(url) {
-  console.log(">>>>>>>>>>>>>>>>>>>");
-  // do stuff, for example
-  // document.getElementById("url").value = url;
-  console.log(url);
-    setTimeout(function() {
-	document.write(url);
-    //alert("received url: " + url);
-  }, 0);
-}
-</script>
+
 
 <div class="main">
 
