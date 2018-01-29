@@ -44,7 +44,7 @@ $(document).ready(function() {
 				
 				if (typeof dataReceived["activated"] != "undefined") { //display success message if account was activated
 					if (dataReceived["activated"] == true) {
-						dataReceived["topMessage"] = "Your account has been successfully activated.";
+						dataReceived["topMessage"] = "Your account has been successfully activated. <a href='login.html'>Click here to log in.</a>";
 
 					} else {
 						dataReceived["topMessage"] = "There was a problem with that activation code. <a href='activation.html'>Click here</a> to re-send your activation email.";
