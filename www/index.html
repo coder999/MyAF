@@ -24,9 +24,13 @@
 	<script type="text/javascript">
 	
 	function handleOpenURL(url) {
-		setTimeout(function() {
-			alert("received url: " + url);
-		}, 0);
+		if (url.indexOf("activate?code=")> -1) {
+			code = url.substr(url.indexOf("activate?code="));
+			window.location.href="activate.html?code="+code;
+		}
+		
+		//if (typeof getVars["email"] != "undefined") {		}
+		
 	}
 
 	$(document).ready(function() {
