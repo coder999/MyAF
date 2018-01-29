@@ -24,9 +24,9 @@
 	<script type="text/javascript">
 	
 	function handleOpenURL(url) {
-		if (url.indexOf("activate?code=")> -1) {
+		if (url.indexOf("activate.html?code=")> -1) {
 			document.write(url);
-			code = url.substr(url.indexOf("activate?code="));
+			code = url.substr(url.indexOf("activate.html?code="));
 			alert(code);
 			location.href="activate.html?code="+code;
 		} else {
@@ -39,8 +39,10 @@
 
 	$(document).ready(function() {
 		//getVars = getAllUrlParams(window.location.href);
-		alert(url);
+		//alert(url);
 		//alert(getVars['code']);
+		
+		//handleOpenURL("activate.html?code=233324");
 		
 		});
 	
