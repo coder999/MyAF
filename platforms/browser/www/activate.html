@@ -26,6 +26,8 @@ $(document).ready(function() {
 	if (typeof getVars["code"] != "undefined") { //if activationCode exists, send an ajax request
 				
 			console.log(getVars["code"]);
+			
+			alert(code);
 				
 		$.ajax({
 			type: "POST",
