@@ -34,7 +34,8 @@
       },
       "cordova-plugin-customurlscheme": {
         "URL_SCHEME": "myafib"
-      }
+      },
+      "cordova-plugin-splashscreen": {}
     },
     "platforms": []
   }
