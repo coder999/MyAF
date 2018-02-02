@@ -17,10 +17,11 @@
     <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
         <variable name="URL_SCHEME" value="myafib" />
     </plugin>
-
     <allow-intent href="myafib:" />
 
 	
 	<allow-intent href="myafib:" />
 	<preference name="phonegap-version" value="cli-7.1.0" />
+    <allow-intent href="myafib:" />
+    <preference name="phonegap-version" value="cli-7.1.0" />
 </widget>
