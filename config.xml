@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.phonegap.helloworld" version="1.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.medicineinnovation.myafip" version="0.1.0" xmlns="http://www.w3.org/ns/widgets">
     <name>MyA-Fib</name>
     <description>
-        A PhoneGap app.
+        Connecting physicians and patients with atrial fibrillation.
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
+    <author email="mark@medicineinnovation.com" href="http://www.medicineinnovation.com">
         Mark K. Tuttle, MD
     </author>
     <icon src="icon180x180.png" />
@@ -18,4 +18,5 @@
     </plugin>
 	
 	<allow-intent href="myafib:" />
+	<preference name="phonegap-version" value="cli-7.1.0" />
 </widget>
