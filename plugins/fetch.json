@@ -34,6 +34,7 @@
     "variables": {
       "URL_SCHEME": "myafib"
     }
+<<<<<<< HEAD
   },
   "cordova-plugin-splashscreen": {
     "source": {
@@ -42,5 +43,7 @@
     },
     "is_top_level": true,
     "variables": {}
+=======
+>>>>>>> parent of 3331066... unsure if splashscreen is installed correctly
   }
 }
