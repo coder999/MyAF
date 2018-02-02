@@ -18,5 +18,5 @@
         <variable name="URL_SCHEME" value="myafib" />
     </plugin>
     <allow-intent href="myafib:" />
-
+    <preference name="phonegap-version" value="cli-7.1.0" />
 </widget>
